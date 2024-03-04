@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' unsafe-inline;">
+		<title>Flex Layout Example</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				height: 600px; /* Fixed height */
+				font-family: sans-serif;
+				color:white;
+				background-color: black;
+			}
+
+			header {
+				background-color: #333;
+				color: white;
+				text-align: center;
+				padding: 10px 0;
+				height: 50px; /* Fixed height */
+			}
+
+			.content {
+				flex: 1 1 auto;
+				overflow-y: auto;
+				padding: 20px;
+			}
+
+			.form-container {
+				max-height: calc(100% - 100px); /* 100px is the combined height of header and footer */
+				width: 100%;
+			}
+
+			.form-group {
+				margin-bottom: 20px;
+			}
+
+			.form-group label {
+				display: block;
+				margin-bottom: 5px;
+			}
+
+			.form-group input {
+				width: calc(100% - 12px);
+				padding: 6px;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+			}
+			.textbox {
+				font-family: monospace;
+				color:green;
+				background-color: lightyellow;
+				font-size:xx-large;
+			}
+			.expand {
+				width:100%;
+			}
+			footer {
+				background-color: #333;
+				color: white;
+				text-align: right;
+				padding: 10px 20px;
+				height: 50px; /* Fixed height */
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Paste</h1>
+		</header>
+		<div class="content">
+			<div class="form-container">
+				<form>
+					<fieldset>
+						<legend>Upload Paste</legend>
+						<div class="form-group">
+							<label for="txtToken">Content:</label>
+							<textarea id="pasteContent" class="expand"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="txtToken">Title:</label>
+							<input type="textbox" id="title" />
+						</div>
+						<div class="form-group">
+							<label for="txtToken">Expire:</label>
+							<select id="expire">
+								<option value="10M">10 Minutes</option>
+								<option value="1H">1 Hour</option>
+								<option value="1D">1 Day</option>
+								<option value="N">Never</option>
+								<option value="1W">1 Week</option>
+								<option value="2W">2 Weeks</option>
+								<option value="1M">1 Month</option>
+								<option value="6M">6 Months</option>
+								<option value="1Y">1 Year</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="txtToken">Highlight:</label>
+							<select id="highlight">
+								<option></option>
+								<option value="whitespace">WhiteSpace</option>
+								<option value="bash">Bash</option>
+								<option value="csharp">C#</option>
+								<option value="diff">Diff</option>
+								<option value="div">DIV</option>
+								<option value="ecmascript">ECMAScript</option>
+								<option value="go">Go</option>
+								<option value="html5">HTML 5</option>
+								<option value="ini">INI file</option>
+								<option value="java">Java</option>
+								<option value="javascript">JavaScript</option>
+								<option value="json">JSON</option>
+								<option value="powershell">PowerShell</option>
+								<option value="qml">QML</option>
+								<option value="sql">SQL</option>
+								<option value="tsql">T-SQL</option>
+								<option value="vbnet">VB.NET</option>
+								<option value="vbscript">VBScript</option>
+							</select>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<footer>
+			<button type="button" id="btnSend" class="button" >Paste</button>
+		</footer>
+	</body>
+	<script src="newPaste.js"></script>
+</html>

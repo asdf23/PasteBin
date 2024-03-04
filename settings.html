@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' unsafe-inline;">
+		<title>Settings</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				height: 600px; /* Fixed height */
+				font-family: sans-serif;
+				color:white;
+				background-color: black;
+			}
+
+			header {
+				background-color: #333;
+				color: white;
+				text-align: center;
+				padding: 10px 0;
+				height: 50px; /* Fixed height */
+			}
+
+			.content {
+				flex: 1 1 auto;
+				overflow-y: auto;
+				padding: 20px;
+			}
+
+			.form-container {
+				max-height: calc(100% - 100px); /* 100px is the combined height of header and footer */
+				width: 100%;
+			}
+
+			.form-group {
+				margin-bottom: 20px;
+			}
+
+			.form-group label {
+				display: block;
+				margin-bottom: 5px;
+			}
+
+			.form-group input {
+				width: calc(100% - 12px);
+				padding: 6px;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+			}
+			.textbox {
+				font-family: monospace;
+				color:green;
+				background-color: lightyellow;
+				font-size:xx-large;
+			}
+			footer {
+				background-color: #333;
+				color: white;
+				text-align: right;
+				padding: 10px 20px;
+				height: 50px; /* Fixed height */
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Settings</h1>
+		</header>
+		<div class="content">
+			<div class="form-container">
+				<form>
+					<fieldset>
+						<legend>Pastebin Settings</legend>
+						<div class="form-group">
+							<label for="txtToken">Token:</label>
+							<input id="txtToken" type="text" class="textbox" placeholder="Enter token here">
+						</div>
+						<div class="form-group">
+							<label for="txtUsername">Username:</label>
+							<input id="txtUsername" type="text" class="textbox" placeholder="Enter username here">
+						</div>
+						<div class="form-group">
+							<label for="txtPassword">Password:</label>
+							<input id="txtPassword" type="password" class="textbox" placeholder="Enter password here">
+						</div>
+						<div class="form-group">
+							<label for="txtSessionKey">Session Key:</label>
+							<input id="txtSessionKey" type="text" class="textbox" placeholder="Enter session key here">
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<footer>
+			<button type="button" id="btnSave" class="button" >Save</button>
+		</footer>
+	</body>
+	<script src="settings.js"></script>
+</html>
