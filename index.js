@@ -2,7 +2,6 @@ const { app, Tray, Menu, BrowserWindow, screen, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const xmlJS = require("xml-js");
-//import fetch from 'node-fetch';
 
 const urlPaste = "https://pastebin.com/api/api_post.php";
 const urlLogin = "https://pastebin.com/api/api_login.php";
@@ -19,6 +18,12 @@ let data = {
 	,sessionKey: null
 };
 
+// ██╗██████╗  ██████╗
+// ██║██╔══██╗██╔════╝
+// ██║██████╔╝██║     
+// ██║██╔═══╝ ██║     
+// ██║██║     ╚██████╗
+// ╚═╝╚═╝      ╚═════╝
 ipcMain.on("invokeActionPasteClose", (event, settingsData) => {
 	getPastesWindow.hide();
 });
@@ -60,7 +65,12 @@ ipcMain.on("get-userData", (event) => {
 	event.returnValue = data;
 });
 
-
+//  █████╗ ██████╗ ██████╗ 
+// ██╔══██╗██╔══██╗██╔══██╗
+// ███████║██████╔╝██████╔╝
+// ██╔══██║██╔═══╝ ██╔═══╝ 
+// ██║  ██║██║     ██║     
+// ╚═╝  ╚═╝╚═╝     ╚═╝     
 app.on("ready", () => {
 	tray = new Tray(path.join(__dirname, "icon.png"));
 	console.log(dataFilePath);
@@ -70,7 +80,7 @@ app.on("ready", () => {
 		try {
 			data = JSON.parse(savedData.toString());
 			//getSessionKey();
-			getPastes();
+			//getPastes();
 		} catch(ex) {
 			console.log(ex);
 			data = {
@@ -80,15 +90,9 @@ app.on("ready", () => {
 
 	}
 	const contextMenu = Menu.buildFromTemplate([
-		{ label: "New Paste", type: "normal", click: () => {
-				createNewPasteWindow();
-			}},
-		{ label: "Get Paste", type: "normal", click: () => {
-				createGetPasteWindow();
-			}},
-		{ label: "Settings", type: "normal", click: () => {
-				createSettingsWindow();
-			}},
+		{ label: "New Paste", type: "normal", click: createNewPasteWindow},
+		{ label: "Get Paste", type: "normal", click: createGetPasteWindow},
+		{ label: "Settings", type: "normal", click: createSettingsWindow},
 		{ label: "Quit", type: "normal", role: "quit" }
 	]);
 
@@ -97,40 +101,47 @@ app.on("ready", () => {
 });
 app.on("before-quit", doSave);
 
-function doSave() {
-	console.log("saving", data);
-	fs.writeFileSync(dataFilePath, JSON.stringify(data));
-}
+
+// ██╗    ██╗██╗███╗   ██╗██████╗  ██████╗ ██╗    ██╗███████╗
+// ██║    ██║██║████╗  ██║██╔══██╗██╔═══██╗██║    ██║██╔════╝
+// ██║ █╗ ██║██║██╔██╗ ██║██║  ██║██║   ██║██║ █╗ ██║███████╗
+// ██║███╗██║██║██║╚██╗██║██║  ██║██║   ██║██║███╗██║╚════██║
+// ╚███╔███╔╝██║██║ ╚████║██████╔╝╚██████╔╝╚███╔███╔╝███████║
+//  ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝  ╚══╝╚══╝ ╚══════╝
 let newPasteWindow = null;
 function createNewPasteWindow() {
 	if(data.token == null) {
 		createSettingsWindow();
 	} else {
-		let display = screen.getPrimaryDisplay();
-		let width = display.bounds.width;
-		let height = display.bounds.height;
-		newPasteWindow = new BrowserWindow({
-			height: 600,
-			width: 600,
-			x: width - 600,
-			y: height - 600,
-			show: false,
-			resizable: false,
-			movable: false,
-			frame: false,
-			darkTheme: true,
-			webPreferences: {
-				nodeIntegration: true,
-				contextIsolation: false,
-				enableRemoteModule: true,
-			}
-		});
+		if(newPasteWindow != null) {
+			newPasteWindow.show();
+		} else {
+			let display = screen.getPrimaryDisplay();
+			let width = display.bounds.width;
+			let height = display.bounds.height;
+			newPasteWindow = new BrowserWindow({
+				height: 600,
+				width: 600,
+				x: width - 600,
+				y: height - 600,
+				show: false,
+				resizable: false,
+				movable: false,
+				frame: false,
+				darkTheme: true,
+				webPreferences: {
+					nodeIntegration: true,
+					contextIsolation: false,
+					enableRemoteModule: true,
+				}
+			});
 
-		newPasteWindow.loadFile("newPaste.html");
-		newPasteWindow.once("ready-to-show", newPasteWindow.show);
-		newPasteWindow.on("closed", () => {
-			newPasteWindow = null;
-		});
+			newPasteWindow.loadFile("newPaste.html");
+			newPasteWindow.once("ready-to-show", newPasteWindow.show);
+			newPasteWindow.on("closed", () => {
+				newPasteWindow = null;
+			});
+		}
 	}
 }
 let getPastesWindow = null;
@@ -138,10 +149,46 @@ function createGetPasteWindow() {
 	if(data.token == null) {
 		createSettingsWindow();
 	} else {
+		if(getPastesWindow != null) {
+			getPastesWindow.show();
+		} else {
+			let display = screen.getPrimaryDisplay();
+			let width = display.bounds.width;
+			let height = display.bounds.height;
+			getPastesWindow = new BrowserWindow({
+				height: 600,
+				width: 600,
+				x: width - 600,
+				y: height - 600,
+				show: false,
+				resizable: false,
+				movable: false,
+				frame: false,
+				darkTheme: true,
+				webPreferences: {
+					nodeIntegration: true,
+					contextIsolation: false,
+					enableRemoteModule: true,
+				}
+			});
+
+			getPastesWindow.loadFile("getPastes.html");
+			getPastesWindow.once("ready-to-show", getPastesWindow.show);
+			getPastesWindow.on("closed", () => {
+				getPastesWindow = null;
+			});
+		}
+	}
+}
+let settingsWindow = null;
+function createSettingsWindow() {
+	if(settingsWindow!= null) {
+		settingsWindow.show();
+	} else {
 		let display = screen.getPrimaryDisplay();
 		let width = display.bounds.width;
 		let height = display.bounds.height;
-		getPastesWindow = new BrowserWindow({
+		settingsWindow = new BrowserWindow({
 			height: 600,
 			width: 600,
 			x: width - 600,
@@ -158,42 +205,22 @@ function createGetPasteWindow() {
 			}
 		});
 
-		getPastesWindow.loadFile("getPastes.html");
-		getPastesWindow.once("ready-to-show", getPastesWindow.show);
-		getPastesWindow.on("closed", () => {
-			getPastesWindow = null;
+		settingsWindow.loadFile("settings.html");
+		settingsWindow.once("ready-to-show", settingsWindow.show);
+		settingsWindow.on("closed", () => {
+			settingsWindow = null;
 		});
 	}
 }
-let settingsWindow = null;
-function createSettingsWindow() {
-	let display = screen.getPrimaryDisplay();
-	let width = display.bounds.width;
-	let height = display.bounds.height;
-	settingsWindow = new BrowserWindow({
-		height: 600,
-		width: 600,
-		x: width - 600,
-		y: height - 600,
-		show: false,
-		resizable: false,
-		movable: false,
-		frame: false,
-		darkTheme: true,
-		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
-			enableRemoteModule: true,
-		}
-	});
 
-	settingsWindow.loadFile("settings.html");
-	settingsWindow.once("ready-to-show", settingsWindow.show);
-	settingsWindow.on("closed", () => {
-		settingsWindow = null;
-	});
-}
-// ---- Fetches ---- //
+
+// ███████╗███████╗████████╗ ██████╗██╗  ██╗███████╗███████╗
+// ██╔════╝██╔════╝╚══██╔══╝██╔════╝██║  ██║██╔════╝██╔════╝
+// █████╗  █████╗     ██║   ██║     ███████║█████╗  ███████╗
+// ██╔══╝  ██╔══╝     ██║   ██║     ██╔══██║██╔══╝  ╚════██║
+// ██║     ███████╗   ██║   ╚██████╗██║  ██║███████╗███████║
+// ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝
+                                                         
 function getSessionKey(cb) {
 	const postData = new URLSearchParams();
 	postData.append("api_dev_key", data.token);
@@ -279,8 +306,19 @@ function createNewPaste(pasteData) {
 		console.error("Error:", error);
 	});
 }
+
+// ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ 
+// ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
+// ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝
+// ██╔══██║██╔══╝  ██║     ██╔═══╝ ██╔══╝  ██╔══██╗
+// ██║  ██║███████╗███████╗██║     ███████╗██║  ██║
+// ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝
 function objectHasDataForAllEntries(obj, entries) {
 	Object.keys(obj).every(e=> {
 		return (e in obj && obj[e] != null && obj[e].toString() != "");
 	})
+}
+function doSave() {
+	console.log("saving", data);
+	fs.writeFileSync(dataFilePath, JSON.stringify(data));
 }
