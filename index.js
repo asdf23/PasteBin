@@ -46,6 +46,11 @@ ipcMain.on("invokeActionNewPasteSend", (event, pasteData) => {
 	console.log("post-createNewPaste");
 	newPasteWindow.hide();
 });
+ipcMain.handle("delete-paste", async(event,pasteKey) => {
+	let result = await deletePaste(pasteKey);
+	console.log("remove paste", result);
+	return result;
+});
 ipcMain.handle("get-paste", async(event,pasteKey) => {
 	let result = await getPaste(pasteKey);
 	console.log("got paste", result);
@@ -241,24 +246,43 @@ function getSessionKey(cb) {
 		console.error("Error:", error);
 	});
 }
+function deletePaste(pasteKey) {
+	return new Promise((resolve, reject) => {
+		const postData = new URLSearchParams();
+		postData.append("api_dev_key", data.token);
+		postData.append("api_user_key", data.sessionKey);
+		postData.append("api_option", "delete");
+		postData.append("api_paste_key", pasteKey);        
+		fetch(urlClipboard, {
+			method: "POST",
+			body: postData
+		}).then(response => {
+			return response.text();
+		}).then(responseText => {
+			resolve(responseText);
+		}).catch(error => {
+			reject(error);
+		});
+	});
+}
 function getPaste(pasteKey) {
-    return new Promise((resolve, reject) => {
-        const postData = new URLSearchParams();
-        postData.append("api_dev_key", data.token);
-        postData.append("api_user_key", data.sessionKey);
-        postData.append("api_option", "show_paste");
-        postData.append("api_paste_key", pasteKey);        
-        fetch(urlClipboard, {
-            method: "POST",
-            body: postData
-        }).then(response => {
-            return response.text();
-        }).then(responseText => {
-            resolve(responseText);
-        }).catch(error => {
-            reject(error);
-        });
-    });
+	return new Promise((resolve, reject) => {
+		const postData = new URLSearchParams();
+		postData.append("api_dev_key", data.token);
+		postData.append("api_user_key", data.sessionKey);
+		postData.append("api_option", "show_paste");
+		postData.append("api_paste_key", pasteKey);        
+		fetch(urlClipboard, {
+			method: "POST",
+			body: postData
+		}).then(response => {
+			return response.text();
+		}).then(responseText => {
+			resolve(responseText);
+		}).catch(error => {
+			reject(error);
+		});
+	});
 }
 function getPastes() {
     return new Promise((resolve, reject) => {
@@ -306,7 +330,6 @@ function createNewPaste(pasteData) {
 		console.error("Error:", error);
 	});
 }
-
 // ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ 
 // ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
 // ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝
