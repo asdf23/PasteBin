@@ -1,4 +1,9 @@
 const { ipcRenderer } = require('electron');
+var cancelButton = document.querySelector("#btnCancel");
+cancelButton.addEventListener("click", function() {
+	ipcRenderer.send("invokeActionNewPasteCancel", {});
+});
+
 var pasteButton = document.querySelector("#btnSend");
 pasteButton.addEventListener("click", function() {
 	ipcRenderer.send("invokeActionNewPasteSend", {

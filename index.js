@@ -40,6 +40,9 @@ ipcMain.on("invokeActionSettingsSaved", (event, settingsData) => {
 	}
 	settingsWindow.hide();
 });
+ipcMain.on("invokeActionNewPasteCancel", (event, pasteData) => {
+	newPasteWindow.hide();
+});
 ipcMain.on("invokeActionNewPasteSend", (event, pasteData) => {
 	console.log("pre-createNewPaste", pasteData);
 	createNewPaste(pasteData)

@@ -53,19 +53,36 @@
 			}
 			.textbox {
 				font-family: monospace;
-				color:green;
+				color: green;
 				background-color: lightyellow;
-				font-size:xx-large;
+				font-size: xx-large;
 			}
+
 			.expand {
-				width:100%;
+				width: 100%;
 			}
+
 			footer {
 				background-color: #333;
 				color: white;
-				text-align: right;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
 				padding: 10px 20px;
 				height: 50px; /* Fixed height */
+			}
+
+			.button {
+				background-color: #444;
+				color: white;
+				border: none;
+				padding: 10px 20px;
+				cursor: pointer;
+				border-radius: 5px;
+			}
+
+			.button:hover {
+				background-color: #555;
 			}
 		</style>
 	</head>
@@ -129,6 +146,7 @@
 			</div>
 		</div>
 		<footer>
+			<button type="button" id="btnCancel" class="button">Cancel</button>
 			<button type="button" id="btnSend" class="button" >Paste</button>
 		</footer>
 	</body>
